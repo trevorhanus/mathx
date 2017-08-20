@@ -1,9 +1,9 @@
 import {expect} from 'chai';
 import {observable, ObservableMap, autorun, runInAction} from 'mobx';
-import {Remath, Cell} from '../../src';
+import {Mathx, Cell} from '../../src';
 import * as sinon from 'sinon';
 
-function renderCells(remath: Remath, view: any): any {
+function renderCells(remath: Mathx, view: any): any {
     remath.cells.forEach(cell => {
         view.set(cell.symbol, renderCell(cell));
     });
@@ -36,7 +36,7 @@ describe('Sessions', () => {
     });
 
     it('reacts to changing values', () => {
-        const remath = new Remath();
+        const remath = new Mathx();
         let view: ObservableMap<string> = observable.map<string>();
         autorun(() => {
             renderCells(remath, view);
@@ -44,7 +44,7 @@ describe('Sessions', () => {
 
         // add a
         runInAction(() => {
-            const a = remath.addCell({
+            const a = remath.newEquation({
                 symbol: 'a',
                 formula: '= 10'
             });
@@ -53,7 +53,7 @@ describe('Sessions', () => {
 
         // add b
         runInAction(() => {
-            const b = remath.addCell({
+            const b = remath.newEquation({
                 symbol: 'b',
                 formula: '= a + 10'
             });
@@ -70,7 +70,7 @@ describe('Sessions', () => {
     });
 
     it('Adding variable whose formula references a non-existent symbol', () => {
-        const remath = new Remath();
+        const remath = new Mathx();
         let view: ObservableMap<string> = observable.map<string>();
         const render = sinon.spy(() => {
             renderCells(remath, view);
@@ -78,7 +78,7 @@ describe('Sessions', () => {
         autorun(render);
 
         // add a
-        const a = remath.addCell({
+        const a = remath.newEquation({
             symbol: 'a',
             formula: '= b + 10'
         });
@@ -87,7 +87,7 @@ describe('Sessions', () => {
 
         // add b = 30
         runInAction(() => {
-            const b = remath.addCell({
+            const b = remath.newEquation({
                 symbol: 'b',
                 formula: '=30'
             });

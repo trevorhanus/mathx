@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 import {cleanFormula} from '../../src/utilities/regex';
 
-describe('Clean Formula', () => {
+describe('Clean Equation', () => {
 
     it('lots of white space at start', () => {
         const value = '                      = a + b';

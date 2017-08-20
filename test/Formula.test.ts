@@ -1,10 +1,10 @@
 import {expect} from 'chai';
 import * as sinon from 'sinon';
-import {Formula} from "../src/Formula";
+import {Equation} from "../src/Equation";
 import {ErrorType} from "../src/IError";
 import {autorun} from "mobx";
 
-describe('Formula', () => {
+describe('Equation', () => {
 
     let graph: any;
     before(() => {
@@ -21,13 +21,13 @@ describe('Formula', () => {
     });
 
     it('can instantiate', () => {
-        const foo = new Formula(graph, {symbol: 'foo'});
+        const foo = new Equation(graph, {symbol: 'foo'});
         expect(foo.formula).to.equal('');
         expect(foo.value).to.be.NaN;
     });
 
     it('can set and get the formula to a constant', () => {
-        const foo = new Formula(graph, {
+        const foo = new Equation(graph, {
             symbol: 'foo',
             formula: '10'
         });
@@ -39,7 +39,7 @@ describe('Formula', () => {
     });
 
     it('can use = sign in front of formula', () => {
-        const foo = new Formula(graph, {
+        const foo = new Equation(graph, {
             symbol: 'foo',
             formula: '   = 10'
         });
@@ -48,7 +48,7 @@ describe('Formula', () => {
     });
 
     it('invalid formula', () => {
-        const foo = new Formula(graph, {
+        const foo = new Equation(graph, {
             symbol: 'foo',
             formula: '10'
         });
@@ -57,7 +57,7 @@ describe('Formula', () => {
     });
 
     it('returns invalid formula', () => {
-        const foo = new Formula(graph, {
+        const foo = new Equation(graph, {
             symbol: 'foo',
             formula: '10'
         });
@@ -66,7 +66,7 @@ describe('Formula', () => {
     });
 
     it('resets formula after supplying valid formula', () => {
-        const foo = new Formula(graph, {
+        const foo = new Equation(graph, {
             symbol: 'foo',
             formula: '10'
         });
@@ -79,13 +79,13 @@ describe('Formula', () => {
 
     it('evaluates', () => {
         graph.symbolExists.returns(false);
-        const a = new Formula(graph, {
+        const a = new Equation(graph, {
             symbol: 'a',
             formula: '10'
         });
         graph.find.returns(a);
         graph.hasCell.returns(true);
-        const b = new Formula(graph, {
+        const b = new Equation(graph, {
             symbol: 'b',
             formula: 'a + 10'
         });
@@ -94,12 +94,12 @@ describe('Formula', () => {
 
     it('updates when dependent value changes', () => {
         graph.symbolExists.returns(false);
-        const a = new Formula(graph, {
+        const a = new Equation(graph, {
             symbol: 'a',
             formula: '10'
         });
         graph.find.returns(a);
-        const b = new Formula(graph, {
+        const b = new Equation(graph, {
             symbol: 'b',
             formula: 'a + 10'
         });
@@ -116,7 +116,7 @@ describe('Formula', () => {
 
     it('Can add `b = a + 10` when `a` does not exist', () => {
         graph.find.returns(null);
-        const b = new Formula(graph, {
+        const b = new Equation(graph, {
             symbol: 'b',
             formula: 'a + 10'
         });

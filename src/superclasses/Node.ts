@@ -1,12 +1,12 @@
 import {observable, computed, action, ObservableMap} from 'mobx';
 import {genId} from '../utilities/genId';
-import {Remath} from '../Remath';
+import {Mathx} from '../Mathx';
 import {IError, ErrorType} from '../IError';
 import {Lockable, ILockableState, ILockable} from "./Lockable";
 
 export interface INode extends ILockable {
    readonly id: string;
-   readonly graph: Remath;
+   readonly graph: Mathx;
    providers: INode[];
    dependents: INode[];
    dependsOn: (node: INode) => boolean;
@@ -26,11 +26,11 @@ export interface INodeState extends ILockableState {
 
 export class Node extends Lockable implements INode {
    private _id: string;
-   private _graph: Remath;
+   private _graph: Mathx;
    @observable private _providers: ObservableMap<INode>;
    @observable private _dependents: ObservableMap<INode>;
 
-   constructor(graph: Remath, initialState?: INodeState) {
+   constructor(graph: Mathx, initialState?: INodeState) {
       super(initialState);
       this._graph = graph;
       this._id = (initialState && initialState.id) || genId();
@@ -38,7 +38,7 @@ export class Node extends Lockable implements INode {
       this._dependents = observable.map<INode>();
    }
 
-   get graph(): Remath {
+   get graph(): Mathx {
       return this._graph;
    }
 

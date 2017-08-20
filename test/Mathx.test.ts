@@ -1,38 +1,38 @@
 import {expect} from 'chai';
-import {Remath} from '../src/Remath';
+import {Mathx} from '../src/Mathx';
 import {autorun} from 'mobx';
 
-describe('Remath', () => {
+describe('Mathx', () => {
 
     it('can instantiate', () => {
-        const rm = new Remath();
+        const rm = new Mathx();
         expect(rm.cells.length).to.equal(0);
     });
 
     it('can add a cell', () => {
-        const rm = new Remath();
-        rm.addCell({symbol: 'a'});
+        const rm = new Mathx();
+        rm.newEquation({symbol: 'a'});
         expect(rm.cells.length).to.equal(1);
     });
 
     it('can add multiple cells', () => {
-        const rm = new Remath();
-        rm.addCell({symbol: 'a'});
-        rm.addCell({symbol: 'b'});
-        rm.addCell({symbol: 'c'});
+        const rm = new Mathx();
+        rm.newEquation({symbol: 'a'});
+        rm.newEquation({symbol: 'b'});
+        rm.newEquation({symbol: 'c'});
         expect(rm.cells.length).to.equal(3);
     });
 
     it('can find cells', () => {
-        const rm = new Remath();
-        const a = rm.addCell({symbol: 'a'});
+        const rm = new Mathx();
+        const a = rm.newEquation({symbol: 'a'});
         expect(rm.find('a')).to.equal(a);
         expect(rm.find(a.id)).to.equal(a);
     });
 
     it('catches a simple circular reference', () => {
-        const graph = new Remath();
-        const a = graph.addCell({
+        const graph = new Mathx();
+        const a = graph.newEquation({
             symbol: 'a',
             formula: '= 10'
         });
@@ -41,20 +41,20 @@ describe('Remath', () => {
     });
 
     it('catches a complicated circular reference', () => {
-        const graph = new Remath();
-        const a = graph.addCell({
+        const graph = new Mathx();
+        const a = graph.newEquation({
             symbol: 'a',
             formula: '= 10'
         });
-        const b = graph.addCell({
+        const b = graph.newEquation({
             symbol: 'b',
             formula: '= a + 10'
         });
-        const c = graph.addCell({
+        const c = graph.newEquation({
             symbol: 'c',
             formula: '= b'
         });
-        const d = graph.addCell({
+        const d = graph.newEquation({
             symbol: 'd',
             formula: '= c'
         });
@@ -64,9 +64,9 @@ describe('Remath', () => {
 
     // TODO: need to make sure this test works
     xit('re-renders `b = a + 10` when `a` is added to sheet', () => {
-        const graph = new Remath();
+        const graph = new Mathx();
         // add b which depends on a, but a does not exist
-        const b = graph.addCell({
+        const b = graph.newEquation({
             symbol: 'derp',
             formula: '= a + 10'
         });
@@ -78,7 +78,7 @@ describe('Remath', () => {
         expect(view).to.equal('b:NaN');
 
         // add a
-        const a = graph.addCell({
+        const a = graph.newEquation({
             symbol: 'a',
             formula: '= 10'
         });

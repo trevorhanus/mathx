@@ -1,44 +1,43 @@
 {
-  "name": "mathx",
-  "version": "0.0.1",
-  "description": "Reactive math spreadsheet-like library",
-  "main": "lib/index.js",
-  "types": "lib/index",
-  "scripts": {
-    "test": "mocha --reporter spec --compilers ts:ts-node/register \"./test/**/*.test.ts\" --recursive --watch",
-    "build": "tsc"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/trevorhanus/reMath.git"
-  },
-  "keywords": [
-    "calculations",
-    "math",
-    "engineering",
-    "mathematics",
-    "spreadsheet"
-  ],
-  "author": "Trevor Hanus <trevorhanus@gmail.com> (http://github.com/trevorhanus)",
-  "license": "MIT",
-  "devDependencies": {
-    "@types/chai": "^4.0.3",
-    "@types/es6-shim": "^0.31.32",
-    "@types/mathjs": "0.0.32",
-    "@types/mocha": "^2.2.41",
-    "@types/sinon": "^1.16.36",
-    "@types/uuid": "^2.0.29",
-    "chai": "^4.1.1",
-    "jest-cli": "^18.1.0",
-    "mocha": "^3.5.0",
-    "sinon": "^1.17.7",
-    "ts-node": "^3.3.0",
-    "typescript": "^2.1.5"
-  },
-  "dependencies": {
-    "mathjs": "^3.1.0",
-    "mobx": "^3.0.0",
-    "numeral": "^1.5.3",
-    "uuid": "^3.0.1"
-  }
+    "name": "mathx",
+    "version": "0.0.1",
+    "description": "Reactive math spreadsheet-like library",
+    "main": "lib/index.js",
+    "types": "lib/index",
+    "scripts": {
+        "test": "mocha --reporter spec --compilers ts:ts-node/register \"./test/**/*.test.ts\" --recursive --watch",
+        "build": "tsc"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/trevorhanus/reMath.git"
+    },
+    "keywords": [
+        "calculations",
+        "math",
+        "engineering",
+        "mathematics",
+        "spreadsheet"
+    ],
+    "author": "Trevor Hanus <trevorhanus@gmail.com> (http://github.com/trevorhanus)",
+    "license": "MIT",
+    "devDependencies": {
+        "@types/chai": "^4.0.3",
+        "@types/es6-shim": "^0.31.32",
+        "@types/mathjs": "0.0.32",
+        "@types/mocha": "^2.2.41",
+        "@types/sinon": "^1.16.36",
+        "@types/uuid": "^2.0.29",
+        "chai": "^4.1.1",
+        "mocha": "^3.5.0",
+        "sinon": "^1.17.7",
+        "ts-node": "^3.3.0",
+        "typescript": "^2.1.5"
+    },
+    "dependencies": {
+        "mathjs": "^3.1.0",
+        "mobx": "^3.0.0",
+        "numeral": "^1.5.3",
+        "uuid": "^3.0.1"
+    }
 }

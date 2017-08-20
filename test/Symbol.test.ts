@@ -1,6 +1,6 @@
 import {expect} from 'chai';
 import * as sinon from 'sinon';
-import {hasher} from '../src/utilities/Hasher';
+import {symbolIdBiMap} from '../src/utilities/SymbolIdBiMap';
 import {Symbol} from '../src/Symbol';
 import {ErrorType} from "../src/IError";
 
@@ -28,15 +28,15 @@ describe('Symbol', () => {
         expect(derp.symbol).to.equal('derp');
     });
 
-    it('sets key-value pair in hasher', () => {
+    it('sets key-value pair in symbolIdBiMap', () => {
         const derp = new Symbol(graph, {symbol: 'derp'});
-        expect(hasher.getKey(derp.id)).to.equal('derp');
+        expect(symbolIdBiMap.getSymbol(derp.id)).to.equal('derp');
     });
 
     it('symbol that contains number', () => {
         const derp = new Symbol(graph, {symbol: 'a_9'});
         expect(derp.symbol).to.equal('a_9');
-        expect(hasher.getKey(derp.id)).to.equal('a_9');
+        expect(symbolIdBiMap.getSymbol(derp.id)).to.equal('a_9');
         expect(derp.errors.length).to.equal(0);
     });
 

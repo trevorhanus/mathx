@@ -1,6 +1,6 @@
 import {Node, INodeState} from './superclasses/Node';
-import {hasher} from './utilities/Hasher';
-import {Remath} from './Remath';
+import {symbolIdBiMap} from './utilities/SymbolIdBiMap';
+import {Mathx} from './Mathx';
 import {ErrorType, IError} from './IError';
 import {observable, computed, action} from "mobx";
 import {isValidSymbol} from "./utilities/regex";
@@ -19,7 +19,7 @@ export class Symbol extends Node implements ISymbol {
    @observable private _symbol: string;
    @observable private _tempInvalidSymbol: string;
 
-   constructor(graph: Remath, initialState: ISymbolState) {
+   constructor(graph: Mathx, initialState: ISymbolState) {
       super(graph, initialState);
       this._symbol = null;
       if (!initialState || isNullOrUndefined(initialState.symbol)) throw Error('must provide a symbol when creating a cell');
@@ -56,9 +56,9 @@ export class Symbol extends Node implements ISymbol {
 
       // finally, set new symbol
       if (this._symbol === null) {
-         hasher.set(symbol, this.id);
+         symbolIdBiMap.set(symbol, this.id);
       } else {
-         hasher.swapKeys(this._symbol, symbol);
+         symbolIdBiMap.swapSymbols(this._symbol, symbol);
       }
 
       this._symbol = symbol;

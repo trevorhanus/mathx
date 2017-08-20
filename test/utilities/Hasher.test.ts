@@ -13,50 +13,50 @@
 // asked for it
 
 import {expect} from 'chai';
-import {hasher} from '../../src/utilities/Hasher';
+import {symbolIdBiMap} from '../../src/utilities/SymbolIdBiMap';
 import {matchesIdFormat} from '../../src/utilities/regex';
 
 describe('symbol hash', () => {
 
     it('returns a uuid for a new key', () => {
-        const hash1 = hasher.getHash('a');
+        const hash1 = symbolIdBiMap.getId('a');
         expect(matchesIdFormat(hash1)).to.equal(true);
     });
 
     it('returns same hash for same key', () => {
-        const hash1 = hasher.getHash('a');
-        const hash2 = hasher.getHash('a');
+        const hash1 = symbolIdBiMap.getId('a');
+        const hash2 = symbolIdBiMap.getId('a');
         expect(hash1).to.equal(hash2);
     });
 
     it('different hashes for different keys', () => {
-        const hash1 = hasher.getHash('b');
-        const hash2 = hasher.getHash('c');
+        const hash1 = symbolIdBiMap.getId('b');
+        const hash2 = symbolIdBiMap.getId('c');
         expect(hash1).not.to.equal(hash2);
     });
 
     it('can get a key for a hash', () => {
-        const hash1 = hasher.getHash('b');
-        const key = hasher.getKey(hash1);
+        const hash1 = symbolIdBiMap.getId('b');
+        const key = symbolIdBiMap.getSymbol(hash1);
         expect(key).to.equal('b');
     });
 
     it('can get a key for a hash after swap', () => {
-        const hash1 = hasher.getHash('b');
-        const key = hasher.getKey(hash1);
+        const hash1 = symbolIdBiMap.getId('b');
+        const key = symbolIdBiMap.getSymbol(hash1);
         expect(key).to.equal('b');
 
-        hasher.swapKeys('b', 'g');
-        const key2 = hasher.getKey(hash1);
+        symbolIdBiMap.swapSymbols('b', 'g');
+        const key2 = symbolIdBiMap.getSymbol(hash1);
         expect(key2).to.equal('g');
     });
 
     it('swaps keys', () => {
-        const hash1 = hasher.getHash('foo');
-        hasher.swapKeys('foo', 'bar');
-        const hash2 = hasher.getHash('bar');
+        const hash1 = symbolIdBiMap.getId('foo');
+        symbolIdBiMap.swapSymbols('foo', 'bar');
+        const hash2 = symbolIdBiMap.getId('bar');
         expect(hash1).to.equal(hash2);
-        const hash3 = hasher.getHash('foo');
+        const hash3 = symbolIdBiMap.getId('foo');
         expect(hash3).not.to.equal(hash1);
     });
 });

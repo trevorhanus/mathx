@@ -3,33 +3,25 @@ import * as math from 'mathjs';
 import {ErrorType, IError} from './IError';
 import {cleanFormula} from "./utilities/regex";
 import {Cell} from './Cell';
-import {Remath} from './Remath';
+import {Mathx} from './Mathx';
 import {Symbol, ISymbolState} from "./Symbol";
 
-export interface ISymbolNode extends mathjs.MathNode {
-   cell: Cell;
-}
-
-export interface IScope {
-   [symbol: string]: number;
-}
-
-export interface IFormula {
+export interface IEquation {
    setFormula: (formula: string) => void; // throws when formula is invalid
    formula: string;
    value: number;
    displayValue: string;
 }
 
-export interface IFormulaState extends ISymbolState {
+export interface IEquationProps extends ISymbolState {
    formula?: string;
 }
 
-export class Formula extends Symbol implements IFormula {
+export class Equation extends Symbol implements IEquation {
    @observable.ref private _rootNode: mathjs.MathNode;
    @observable private _tempInvalidFormula: string;
 
-   constructor(graph: Remath, initialState: IFormulaState) {
+   constructor(graph: Mathx, initialState: IEquationProps) {
       super(graph, initialState);
       this._rootNode = null;
       this._tempInvalidFormula = null;
@@ -43,11 +35,9 @@ export class Formula extends Symbol implements IFormula {
       if (this._tempInvalidFormula !== null) {
          return this._tempInvalidFormula;
       }
-
       if (this._rootNode === null) {
          return '';
       }
-
       return this._rootNode.toString();
    }
 
@@ -226,4 +216,12 @@ export class Formula extends Symbol implements IFormula {
          });
       });
    }
+}
+
+export interface ISymbolNode extends mathjs.MathNode {
+    cell: Cell;
+}
+
+export interface IScope {
+    [symbol: string]: number;
 }

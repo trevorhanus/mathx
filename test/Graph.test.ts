@@ -1,54 +1,54 @@
 import {expect} from 'chai';
 import {autorun} from 'mobx';
 import * as sinon from 'sinon';
-import {Remath} from '../src/Remath';
-import {hasher} from '../src/utilities/Hasher';
+import {Mathx} from '../src/Mathx';
+import {symbolIdBiMap} from '../src/utilities/SymbolIdBiMap';
 
-describe('Remath', () => {
+describe('Mathx', () => {
 
     it('add a cell', () => {
-        const graph = new Remath();
-        const a = graph.addCell({
+        const graph = new Mathx();
+        const a = graph.newEquation({
             symbol: 'a'
         });
         expect(graph.find('a')).to.equal(a);
     });
 
     it('find by id', () => {
-        const graph = new Remath();
-        const a = graph.addCell({
+        const graph = new Mathx();
+        const a = graph.newEquation({
             symbol: 'a'
         });
         expect(graph.find(a.id)).to.equal(a);
     });
 
     it('find by id with 2 cells', () => {
-        const graph = new Remath();
-        const a = graph.addCell({
+        const graph = new Mathx();
+        const a = graph.newEquation({
             symbol: 'a'
         });
-        const b = graph.addCell({
+        const b = graph.newEquation({
             symbol: 'b'
         });
         expect(graph.find(a.id)).to.equal(a);
     });
 
     it('find => null when no symbol', () => {
-        const graph = new Remath();
+        const graph = new Mathx();
         expect(graph.find('a')).to.be.null;
     });
 
     it('find => null when no id', () => {
-        const graph = new Remath();
-        expect(graph.find(hasher.getHash('none'))).to.be.null;
+        const graph = new Mathx();
+        expect(graph.find(symbolIdBiMap.getId('none'))).to.be.null;
     });
 
     it('returns a list of cells', () => {
-        const graph = new Remath();
-        const a = graph.addCell({
+        const graph = new Mathx();
+        const a = graph.newEquation({
             symbol: 'a'
         });
-        const b = graph.addCell({
+        const b = graph.newEquation({
             symbol: 'b'
         });
         expect(graph.cells).to.be.instanceOf(Array);
@@ -56,16 +56,16 @@ describe('Remath', () => {
     });
 
     it('knows when symbol exists', () => {
-        const graph = new Remath();
-        const a = graph.addCell({
+        const graph = new Mathx();
+        const a = graph.newEquation({
             symbol: 'a'
         });
         expect(graph.symbolExists('a')).to.equal(true);
     });
 
     it('knows when updated symbol exists', () => {
-        const graph = new Remath();
-        const a = graph.addCell({
+        const graph = new Mathx();
+        const a = graph.newEquation({
             symbol: 'a'
         });
         a.updateSymbol('b');
@@ -74,8 +74,8 @@ describe('Remath', () => {
     });
 
     it('Can remove a cell', () => {
-        const graph = new Remath();
-        const a = graph.addCell({
+        const graph = new Mathx();
+        const a = graph.newEquation({
             symbol: 'a'
         });
         expect(graph.cells.length).to.equal(1);
@@ -87,12 +87,12 @@ describe('Remath', () => {
     });
 
     it('reacts when a dependent cell is removed', () => {
-        const graph = new Remath();
-        const a = graph.addCell({
+        const graph = new Mathx();
+        const a = graph.newEquation({
             symbol: 'a',
             formula: '= 10'
         });
-        const b = graph.addCell({
+        const b = graph.newEquation({
             symbol: 'b',
             formula: '= a + 10'
         });
@@ -109,28 +109,28 @@ describe('Remath', () => {
 
     // TODO: add the messages functionality to graph
     // xit('Duplicate symbols', () => {
-    //     const graph = new Remath();
+    //     const graph = new Mathx();
     //     const messagesSpy = sinon.spy(() => {
     //         graph.messages;
     //     });
     //     autorun(messagesSpy);
-    //     const a = graph.addCell({
+    //     const a = graph.newEquation({
     //         symbol: 'a'
     //     });
-    //     const a2 = graph.addCell({
+    //     const a2 = graph.newEquation({
     //         symbol: 'a'
     //     });
     //     expect(messagesSpy.callCount).to.equal(2);
-    //     expect(graph.messages[0].content).to.equal('Remath: symbol `a` already exists');
+    //     expect(graph.messages[0].content).to.equal('Mathx: symbol `a` already exists');
     // });
 
     it('can add a removed symbol', () => {
-        const graph = new Remath();
-        const a = graph.addCell({
+        const graph = new Mathx();
+        const a = graph.newEquation({
             symbol: 'a'
         });
         graph.removeCell('a');
-        const a2 = graph.addCell({
+        const a2 = graph.newEquation({
             symbol: 'a'
         });
         expect(graph.find('a')).to.equal(a2);

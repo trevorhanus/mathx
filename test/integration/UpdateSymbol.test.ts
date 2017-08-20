@@ -1,16 +1,16 @@
 import {expect} from 'chai';
 import * as sinon from 'sinon';
 import {autorun, spy} from 'mobx';
-import {Remath} from '../../src';
+import {Mathx} from '../../src';
 
 describe('Update Symbol', () => {
     it('can update a symbol when other cells depend on it', () => {
-        const remath = new Remath();
-        const a = remath.addCell({
+        const remath = new Mathx();
+        const a = remath.newEquation({
             symbol: 'a',
             formula: '= 10'
         });
-        const b = remath.addCell({
+        const b = remath.newEquation({
             symbol: 'b',
             formula: '= a + 10'
         });

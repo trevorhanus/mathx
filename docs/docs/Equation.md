@@ -13,6 +13,8 @@ Eg: `a = 10` and `b = a + 20` would both be represented as equations.
 `constructor(graph: MathX, id?: string)`  
 Returns a newly created cell. The `id` parameter is optional and is required when creating a new cell from props, since `id` is final and cannot be changed.
 
+`Equation#`
+
 ## Properties
 
 `value: number`  

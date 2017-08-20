@@ -15,7 +15,7 @@ Returns a list of all the cells in the model.
 `newEquation(props: EquationProps): Cell`  
 Creates a new cell and adds it to the model.
 
-`cellsContaining(query: string): Cell[]`  
+`getCellsContaining(query: string): Cell[]`  
 Returns a list of all the cells whose symbols contain the given query.
 
 (future) `newPicklist(props: PicklistProps): Picklist`  

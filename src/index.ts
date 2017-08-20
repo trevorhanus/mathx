@@ -1,7 +1,7 @@
-import {Remath} from './Remath';
+import {Mathx} from './Mathx';
 import {Cell} from './Cell';
 
 export {
-   Remath,
+   Mathx,
    Cell
 }

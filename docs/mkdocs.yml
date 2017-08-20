@@ -7,4 +7,4 @@ pages:
   - Calculation: Calculation.md
   - Equation: Equation.md
   - Superclasses:
-    - ErrorContainer: ErrorContainer.md
+    - ErrorContainer: superclasses/ErrorContainer.md

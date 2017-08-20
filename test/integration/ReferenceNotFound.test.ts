@@ -1,13 +1,13 @@
 import {expect} from 'chai';
 import {autorun, runInAction} from 'mobx';
 import * as sinon from 'sinon';
-import {Remath} from "../../src/Remath";
+import {Mathx} from "../../src/Mathx";
 
 describe('Reference Not Found', () => {
 
     it('simple reference does not exist', () => {
-        const graph = new Remath();
-        const a = graph.addCell({
+        const graph = new Mathx();
+        const a = graph.newEquation({
             symbol: 'a',
             formula: '= 10'
         });
@@ -17,12 +17,12 @@ describe('Reference Not Found', () => {
     });
 
     it('reference is removed', () => {
-        const graph = new Remath();
-        const a = graph.addCell({
+        const graph = new Mathx();
+        const a = graph.newEquation({
             symbol: 'a',
             formula: '= 10'
         });
-        const b = graph.addCell({
+        const b = graph.newEquation({
             symbol: 'b',
             formula: '= a + 10'
         });
@@ -37,12 +37,12 @@ describe('Reference Not Found', () => {
     });
 
     it('rerenders when reference is removed', () => {
-        const graph = new Remath();
-        const a = graph.addCell({
+        const graph = new Mathx();
+        const a = graph.newEquation({
             symbol: 'a',
             formula: '= 10'
         });
-        const b = graph.addCell({
+        const b = graph.newEquation({
             symbol: 'b',
             formula: '= a + 10'
         });

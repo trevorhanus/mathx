@@ -1,10 +1,10 @@
 import {INode} from './superclasses/Node';
 import {IErrorContainer} from "./superclasses/ErrorContainer";
 import {ISymbol} from "./Symbol";
-import {IFormula, Formula, IFormulaState} from "./Formula";
+import {IEquation, Equation, IEquationProps} from "./Equation";
 import {ILockable} from "./superclasses/Lockable";
 
-export class Cell extends Formula {}
+export class Cell extends Equation {}
 
 namespace Cell {
 
@@ -13,8 +13,8 @@ namespace Cell {
       ILockable,
       INode,
       ISymbol,
-      IFormula {}
+      IEquation {}
 
 }
 
-export interface CellState extends IFormulaState {}
+export interface CellState extends IEquationProps {}
