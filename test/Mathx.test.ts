@@ -27,7 +27,7 @@ describe('Mathx', () => {
         const rm = new Mathx();
         const a = rm.newEquation({symbol: 'a'});
         expect(rm.find('a')).to.equal(a);
-        expect(rm.find(a.id)).to.equal(a);
+        expect(rm.findById(a.id)).to.equal(a);
     });
 
     it('catches a simple circular reference', () => {
@@ -62,8 +62,7 @@ describe('Mathx', () => {
         expect(a.errors.length).to.equal(1);
     });
 
-    // TODO: need to make sure this test works
-    xit('re-renders `b = a + 10` when `a` is added to sheet', () => {
+    it('re-renders `b = a + 10` when `a` is added to sheet', () => {
         const graph = new Mathx();
         // add b which depends on a, but a does not exist
         const b = graph.newEquation({

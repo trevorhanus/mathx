@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import * as sinon from 'sinon';
 import {symbolIdBiMap} from '../src/utilities/SymbolIdBiMap';
 import {Symbol} from '../src/Symbol';
-import {ErrorType} from "../src/IError";
+import {ErrorType} from "../src/errors";
 
 describe('Symbol', () => {
     let graph: any;

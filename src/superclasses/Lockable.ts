@@ -1,5 +1,5 @@
 import {observable, computed, action} from "mobx";
-import {ErrorContainer, IErrorContainer} from './ErrorContainer';
+import {ErrorContainer, IErrorContainer} from '../errors/ErrorContainer';
 
 export interface ILockable extends IErrorContainer {
    lock: () => void;

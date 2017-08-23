@@ -10,13 +10,13 @@ export class SymbolIdBiMap {
     }
 
     public getId(symbol: string): string {
-        const hash = this._symbolToIdMap.get(symbol);
-        if (hash !== null) {
-            return hash;
+        const id = this._symbolToIdMap.get(symbol);
+        if (id !== null) {
+            return id;
         } else {
-            const newHash = genId();
-            this.set(symbol, newHash);
-            return newHash;
+            const newId = genId();
+            this.set(symbol, newId);
+            return newId;
         }
     }
 

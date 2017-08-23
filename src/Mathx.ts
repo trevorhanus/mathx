@@ -8,9 +8,9 @@ export interface IMathx {
     cells: Cell[];
     newEquation: (props: IEquationProps) => Equation;
     find: (symbolOrId: string) => Cell;
+    findById: (Id: string) => Cell;
     symbolExists: (symbol: string) => boolean;
     removeCell: (symbolOrId: string) => Cell;
-
 }
 
 export class Mathx implements IMathx {
@@ -59,7 +59,7 @@ export class Mathx implements IMathx {
 
     @action
     newEquation(props: IEquationProps): Equation {
-        const e = Equation.build(props);
+        // const e = Equation.build(props);
         const newCell = new Cell(this, props);
         this._cells.set(newCell.id, newCell);
         return newCell;

@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {ErrorContainer} from "../../src/superclasses/ErrorContainer";
+import {ErrorContainer} from "../../src/errors/ErrorContainer";
 
 describe('ErrorContainer', () => {
 

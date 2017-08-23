@@ -1,8 +1,9 @@
 import {expect} from 'chai';
 import * as sinon from 'sinon';
 import {Equation} from "../src/Equation";
-import {ErrorType} from "../src/IError";
+import {ErrorType} from "../src/errors";
 import {autorun} from "mobx";
+import {Mathx} from '../src/Mathx';
 
 describe('Equation', () => {
 
@@ -10,6 +11,7 @@ describe('Equation', () => {
     before(() => {
         graph = {
             find: sinon.stub(),
+            findById: sinon.stub(),
             hasCell: sinon.stub(),
             symbolExists: sinon.stub()
         };
@@ -83,8 +85,7 @@ describe('Equation', () => {
             symbol: 'a',
             formula: '10'
         });
-        graph.find.returns(a);
-        graph.hasCell.returns(true);
+        graph.findById.returns(a);
         const b = new Equation(graph, {
             symbol: 'b',
             formula: 'a + 10'
@@ -98,7 +99,7 @@ describe('Equation', () => {
             symbol: 'a',
             formula: '10'
         });
-        graph.find.returns(a);
+        graph.findById.returns(a);
         const b = new Equation(graph, {
             symbol: 'b',
             formula: 'a + 10'
@@ -115,12 +116,28 @@ describe('Equation', () => {
     });
 
     it('Can add `b = a + 10` when `a` does not exist', () => {
-        graph.find.returns(null);
+        graph.findById.returns(null);
         const b = new Equation(graph, {
             symbol: 'b',
             formula: 'a + 10'
         });
         expect(b.value).to.be.NaN;
         expect(b.errors.length).to.equal(1);
+    });
+
+    it('Returns modified formula when a dependent cell changes symbol', () => {
+         const mathx = new Mathx();
+         const a = mathx.newEquation({
+             symbol: 'a',
+             formula: '10'
+         });
+         const b = mathx.newEquation({
+             symbol: 'b',
+             formula: 'a + 10'
+         });
+         expect(b.formula).to.equal('a + 10');
+         a.updateSymbol('newA');
+         expect(a.symbol).to.equal('newA');
+         expect(b.formula).to.equal('newA + 10');
     });
 });

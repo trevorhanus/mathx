@@ -51,10 +51,9 @@ describe('Reference Not Found', () => {
         });
         autorun(renderSpy);
         graph.removeCell('a');
-        const expectedCallCount = 3;
+        const expectedCallCount = 2;
         // 1) when autorun is executed for the first time
         // 2) when value changes to NaN because `b` can't find the value of `a`
-        // TODO: 3) figure out why there is a 3rd call to render?
         expect(renderSpy.callCount).to.equal(expectedCallCount);
     });
 });

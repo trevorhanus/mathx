@@ -86,9 +86,9 @@ describe('Node', () => {
         const c = new Node({} as Mathx);
         b.addDependency(a);
         c.addDependency(b);
-        expect(() => {
-            a.addDependency(c);
-        }).to.throw();
+        expect(a.hasError).to.be.false;
+        a.addDependency(c);
+        expect(a.hasError).to.be.true;
     });
 
     it('can remove a dependency', () => {

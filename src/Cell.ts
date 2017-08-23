@@ -1,5 +1,5 @@
 import {INode} from './superclasses/Node';
-import {IErrorContainer} from "./superclasses/ErrorContainer";
+import {IErrorContainer} from "./errors/ErrorContainer";
 import {ISymbol} from "./Symbol";
 import {IEquation, Equation, IEquationProps} from "./Equation";
 import {ILockable} from "./superclasses/Lockable";

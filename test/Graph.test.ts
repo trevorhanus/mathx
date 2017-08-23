@@ -4,7 +4,7 @@ import * as sinon from 'sinon';
 import {Mathx} from '../src/Mathx';
 import {symbolIdBiMap} from '../src/utilities/SymbolIdBiMap';
 
-describe('Mathx', () => {
+describe('Graph', () => {
 
     it('add a cell', () => {
         const graph = new Mathx();
@@ -19,7 +19,7 @@ describe('Mathx', () => {
         const a = graph.newEquation({
             symbol: 'a'
         });
-        expect(graph.find(a.id)).to.equal(a);
+        expect(graph.findById(a.id)).to.equal(a);
     });
 
     it('find by id with 2 cells', () => {
@@ -30,7 +30,7 @@ describe('Mathx', () => {
         const b = graph.newEquation({
             symbol: 'b'
         });
-        expect(graph.find(a.id)).to.equal(a);
+        expect(graph.findById(a.id)).to.equal(a);
     });
 
     it('find => null when no symbol', () => {
@@ -102,9 +102,10 @@ describe('Mathx', () => {
         autorun(renderSpy);
         expect(b.value).to.equal(20);
         graph.removeCell('a');
-        expect(renderSpy.callCount).to.equal(3);
-        expect(b.hasError).to.equal(true);
+        expect(renderSpy.callCount).to.equal(2);
         expect(b.value).to.be.NaN;
+        console.log('errors', b.errors);
+        expect(b.hasError).to.equal(true);
     });
 
     // TODO: add the messages functionality to graph
@@ -134,5 +135,25 @@ describe('Mathx', () => {
             symbol: 'a'
         });
         expect(graph.find('a')).to.equal(a2);
+    });
+
+    it('knows it has dependents', () => {
+        const graph = new Mathx();
+        const a = graph.newEquation({
+            symbol: 'a',
+            formula: '10'
+        });
+        const b = graph.newEquation({
+            symbol: 'b',
+            formula: 'a + 10'
+        });
+        const c = graph.newEquation({
+            symbol: 'c',
+            formula: 'b + 10'
+        });
+        expect(a.dependents).to.deep.equal([b, c]);
+        expect(b.providers).to.deep.equal([a]);
+        expect(b.dependents).to.deep.equal([c]);
+        expect(c.providers).to.deep.equal([b, a]);
     });
 });

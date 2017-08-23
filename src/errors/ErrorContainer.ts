@@ -1,5 +1,5 @@
 import {observable, ObservableMap, computed, action} from "mobx";
-import {ErrorType, IError} from '../IError';
+import {ErrorType, IError} from './';
 
 export interface IErrorContainer {
     valid: boolean;
@@ -29,6 +29,11 @@ export class ErrorContainer implements IErrorContainer {
     @action
     __clearError(type: ErrorType): void {
         this._errors.delete(ErrorType[type]);
+    }
+
+    @action
+    __clearAllErrors(): void {
+        this._errors.clear();
     }
 
     @action

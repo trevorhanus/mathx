@@ -69,30 +69,34 @@ describe('Sessions', () => {
         expect(view.get('b')).to.equal('sym:b,formula:a + 10,val:30,disp:30');
     });
 
-    it('Adding variable whose formula references a non-existent symbol', () => {
-        const remath = new Mathx();
-        let view: ObservableMap<string> = observable.map<string>();
+    it('adding variable whose formula references a non-existent symbol', () => {
+        const mathx = new Mathx();
+        let view: string = '';
         const render = sinon.spy(() => {
-            renderCells(remath, view);
+            view = '';
+            mathx.cells.forEach(cell => {
+                if (view.length > 0) view += ';';
+                view += `sym:${cell.symbol},val:${cell.value}`
+            });
         });
         autorun(render);
 
         // add a
-        const a = remath.newEquation({
+        const a = mathx.newEquation({
             symbol: 'a',
             formula: '= b + 10'
         });
         expect(render.callCount).to.equal(2);
-        expect(view.get('a')).to.equal('sym:a,formula:b + 10,val:NaN,disp:#REF?');
+        expect(view).to.equal('sym:a,val:NaN');
 
         // add b = 30
         runInAction(() => {
-            const b = remath.newEquation({
+            const b = mathx.newEquation({
                 symbol: 'b',
                 formula: '=30'
             });
         });
-        expect(view.get('b')).to.equal('sym:b,formula:30,val:30,disp:30');
-        expect(view.get('a')).to.equal('sym:a,formula:b + 10,val:40,disp:40');
+        expect(view).to.equal('sym:a,val:40;sym:b,val:30');
+        // expect(view.get('a')).to.equal('sym:a,formula:b + 10,val:40,disp:40');
     });
 });

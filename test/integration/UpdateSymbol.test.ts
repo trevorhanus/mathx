@@ -2,6 +2,7 @@ import {expect} from 'chai';
 import * as sinon from 'sinon';
 import {autorun, spy} from 'mobx';
 import {Mathx} from '../../src';
+import {symbolIdBiMap} from "../../src/utilities/SymbolIdBiMap";
 
 describe('Update Symbol', () => {
     it('can update a symbol when other cells depend on it', () => {
