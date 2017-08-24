@@ -85,4 +85,10 @@ export class Mathx implements IMathx {
         const id = symbolIdBiMap.getId(symbol);
         return this._cells.has(id);
     }
+
+    // Static
+
+    static newCalculation(): Mathx {
+        return new Mathx();
+    }
 }

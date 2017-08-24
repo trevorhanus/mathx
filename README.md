@@ -1,8 +1,8 @@
-# Remath
+# Mathx
 
 Mathx is a library that represents a mathematical equation as a graph of dependencies. It uses the Mobx library to make properties observable.
 
-Read the [docs](www.trevorhanus.com/docs/mathx)
+Read the [docs](http://www.trevorhanus.com/docs/mathx)
 
 ## Install
 
@@ -17,43 +17,46 @@ $ yarn add mathx
 ## Basic Usage
 
 ```typescript
-import {Mathx, autorun} from 'mathx';
+import {Mathx, autorun} from '../src';
 
 const calc = Mathx.newCalculation();
 
-// Add a cell to the sheet
-const a = calc.addEquation({
+// Add an equation to the calc
+const a = calc.newEquation({
     symbol: 'a',
     formula: '10'
 });
 
-// This function will run once, immediately, then any time the value of 'a' changes
+// This function will run once, immediately, then any time the value of `a` changes
 autorun(() => {
-  console.log('The value of a = ', a.value);
+    console.log('The value of a = ', a.value);
 });
+// => The value of a = 10
 
 a.setFormula('5');
 // => The value of a = 5
 
-// Let's add another equation to the calc, this one will be dependent on the value of 'a'
-calc.addEquation({
+// Let's add another equation to the calc, this one will be dependent on the value of `a`
+const b = calc.newEquation({
     symbol: 'b',
     formula: 'a + 5'
 });
 
+// setup another autorun function that observes `b`
 autorun(() => {
-  console.log('The value of b = ', b.value);
+    console.log('The value of b = ', b.value);
 });
 // => The value of b = 10
 
 a.setFormula('10');
-// => The value of a = 5
 // => The value of b = 15
+// => The value of a = 10
 
-// The autorun function is called again, because the value of b depends on the value of a.
+// The autorun function is called again, because the value of `b` depends on the value of `a`.
+
 ```
 
-You can learn more by reading the [documentation](www.trevorhanus.com/docs/mathx)
+You can learn more by reading the [documentation](http://www.trevorhanus.com/docs/mathx)
 
 ## Run the tests
 
