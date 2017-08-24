@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {Mathx} from '../src/Mathx';
+import {ICalculationProps, Mathx} from '../src/Mathx';
 import {autorun} from 'mobx';
 
 describe('Mathx', () => {
@@ -82,5 +82,28 @@ describe('Mathx', () => {
             formula: '= 10'
         });
         expect(view).to.equal('b:20');
+    });
+
+    it('can populate from json', () => {
+        const json: ICalculationProps = {
+            cells: [
+                {
+                    type: 'Equation',
+                    symbol: 'b',
+                    formula: 'a + 10'
+                },
+                {
+                    type: 'Equation',
+                    symbol: 'a',
+                    formula: '10'
+                }
+            ]
+        };
+        const calc = Mathx.fromJSON(json);
+        expect(calc.cells.length).to.equal(2);
+        const a = calc.find('a');
+        const b = calc.find('b');
+        expect(a.value).to.equal(10);
+        expect(b.value).to.equal(20);
     });
 });

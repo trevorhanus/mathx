@@ -15,6 +15,18 @@ export interface IMathx {
     symbolExists: (symbol: string) => boolean;
 }
 
+export interface ICalculationProps {
+    cells: ICellProps[];
+}
+
+export interface ICellProps {
+    type: 'Equation';
+    symbol: string;
+    id?: string;
+    formula?: string;
+    displayFormat?: string;
+}
+
 export class Mathx implements IMathx {
     @observable private _cells: ObservableMap<Cell>;
 
@@ -44,6 +56,18 @@ export class Mathx implements IMathx {
         return this.cells.filter(cell => {
             return cell.symbol.indexOf(substring) > -1;
         });
+    }
+
+    @action
+    newCell(props: ICellProps): Cell {
+        switch (props.type) {
+
+            case 'Equation':
+                return this.newEquation(props);
+
+            default:
+                return null;
+        }
     }
 
     @action
@@ -90,5 +114,13 @@ export class Mathx implements IMathx {
 
     static newCalculation(): Mathx {
         return new Mathx();
+    }
+
+    static fromJSON(props: ICalculationProps): Mathx {
+        const c = new Mathx();
+        props.cells.forEach(cellProps => {
+            c.newCell(cellProps);
+        });
+        return c;
     }
 }
