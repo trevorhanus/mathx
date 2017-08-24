@@ -1,16 +1,18 @@
-import {Cell, CellState} from './Cell';
+import {Cell} from './Cell';
 import {Equation, IEquationProps} from './Equation';
-import {matchesIdFormat} from './utilities/regex';
 import {symbolIdBiMap} from './utilities/SymbolIdBiMap';
 import {observable, ObservableMap, computed, action} from "mobx";
 
 export interface IMathx {
     cells: Cell[];
-    newEquation: (props: IEquationProps) => Equation;
     find: (symbolOrId: string) => Cell;
-    findById: (Id: string) => Cell;
+    findById: (id: string) => Cell;
+    idExists: (id: string) => boolean;
+    getCellsContaining: (substring: string) => Cell[];
+    newEquation: (props: IEquationProps) => Equation;
+    removeCell: (symbol: string) => Cell;
+    removeCellById: (id: string) => Cell;
     symbolExists: (symbol: string) => boolean;
-    removeCell: (symbolOrId: string) => Cell;
 }
 
 export class Mathx implements IMathx {
@@ -25,19 +27,6 @@ export class Mathx implements IMathx {
         return this._cells.values();
     }
 
-    // find(symbolOrId: string): Cell {
-    //     let cell: Cell;
-    //     const probablyAnId = matchesIdFormat(symbolOrId);
-    //     if (probablyAnId) {
-    //         cell = this._cells.get(symbolOrId);
-    //     }
-    //     if (cell === undefined) { // maybe it is a symbol
-    //         const hash = symbolIdBiMap.getId(symbolOrId);
-    //         cell = this._cells.get(hash) || null;
-    //     }
-    //     return cell;
-    // }
-
     find(symbol: string): Cell {
         const id = symbolIdBiMap.getId(symbol);
         return this.findById(id);
@@ -47,14 +36,14 @@ export class Mathx implements IMathx {
         return this._cells.get(id) || null;
     }
 
-    symbolExists(symbol: string): boolean {
-        return this._cells.values().some(cell => {
-            return cell.symbol === symbol;
-        });
+    idExists(id: string): boolean {
+        return this._cells.has(id);
     }
 
-    hasCell(id: string): boolean {
-        return this._cells.has(id);
+    getCellsContaining(substring: string): Cell[] {
+        return this.cells.filter(cell => {
+            return cell.symbol.indexOf(substring) > -1;
+        });
     }
 
     @action
@@ -66,9 +55,21 @@ export class Mathx implements IMathx {
     }
 
     @action
-    removeCell(symbolOrId: string): Cell {
-        const cell = this.find(symbolOrId);
-        if (!cell) return;
+    removeCell(symbol: string): Cell {
+        if (!this.symbolExists(symbol)) {
+            return null;
+        }
+        const id = symbolIdBiMap.getId(symbol);
+        return this.removeCellById(id);
+    }
+
+    @action
+    removeCellById(id: string): Cell {
+        if (!this.idExists(id)) {
+            return null;
+        }
+
+        const cell = this.findById(id);
 
         // remove reference to this node in all dependent nodes
         cell.dependents.forEach(node => {
@@ -76,7 +77,12 @@ export class Mathx implements IMathx {
         });
 
         // delete node from graph
-        this._cells.delete(cell.id);
+        this._cells.delete(id);
         return cell;
+    }
+
+    symbolExists(symbol: string): boolean {
+        const id = symbolIdBiMap.getId(symbol);
+        return this._cells.has(id);
     }
 }

@@ -1,14 +1,14 @@
-# MathX
+# Mathx
 
-MathX is a library that represents a mathematical equation as a graph of dependencies. It uses the Mobx library to make properties observable.
+Mathx is a library that represents a mathematical equation as a graph of dependencies. It uses the Mobx library to make properties observable.
 
 ## Getting Started
 
 ##### Adding an equation
 
 ```
-  const graph = MathX.newCalculation();
-  const a = graph.addEquation({
+  const calc = mathx.newCalculation();
+  const a = calc.addEquation({
     symbol: 'a',
     formula: '= 10'
   });
@@ -17,15 +17,25 @@ MathX is a library that represents a mathematical equation as a graph of depende
 ##### Adding an equation that references the value of another equation
 
 ```
-  const b = graph.addEquation({
+  const b = calc.addEquation({
     symbol: 'b',
     formula: '= a + 10'
   });
 ```
 since the given formula references the symbol `a` the equation is dependent on the value of `a` and will update whenever the value of `a` changes
 
+##### Update a cell's symbol 
 
-##### Add a boolean cell
+```
+  const b = calc.addEquation({
+    symbol: 'b',
+    formula: '= a + 10'
+  });
+  b.updateSymbol('foo');
+  console.log(b.symbol) // 'foo'
+```
+
+##### Add a boolean cell (future)
 
 ```
   const note = remath.addCell({
@@ -34,7 +44,7 @@ since the given formula references the symbol `a` the equation is dependent on t
   });
 ```
 
-##### Add a pick list
+##### Add a pick list (future)
 
 ```
   const fruit = remath.addPickList({

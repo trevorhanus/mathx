@@ -1,9 +1,9 @@
-site_name: MathX Documentation
+site_name: mathx Documentation
 theme: readthedocs
 pages:
   - Home: index.md
   - Concepts: Concepts.md
-  - MathX: MathX.md
+  - mathx: Mathx.md
   - Calculation: Calculation.md
   - Equation: Equation.md
   - Superclasses:

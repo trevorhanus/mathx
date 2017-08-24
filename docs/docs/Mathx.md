@@ -1,4 +1,4 @@
-# MathX
+# mathx
 
 Top level object
 

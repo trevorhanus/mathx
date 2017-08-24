@@ -207,7 +207,7 @@ export class Equation extends Symbol implements IEquation {
     //                 return;
     //             }
     //
-    //             if (!this.graph.hasCell(node.cell.id)) {
+    //             if (!this.graph.idExists(node.cell.id)) {
     //                 // cell was deleted
     //                 this.addCellReferenceError(`referenced cell [${node.cell.symbol}] was deleted`);
     //             }
