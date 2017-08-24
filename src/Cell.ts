@@ -3,13 +3,14 @@ import {Mathx} from './Mathx';
 import {observable, computed, action} from 'mobx';
 
 export interface ICell extends ISymbol {
-    value: number | string;
     displayValue: string;
+    formula?: string;
     setFormula?: (formula: string) => void;
+    value: number | string;
 }
 
 export interface ICellProps extends ISymbolProps {
-    type: 'Equation';
+    type?: 'Equation';
     formula?: string;
     value?: number | string;
     displayFormat?: string;
