@@ -8,14 +8,14 @@ export interface ILockable extends IErrorContainer {
    locked: boolean;
 }
 
-export interface ILockableState {
+export interface ILockableProps {
    locked?: boolean;
 }
 
 export class Lockable extends ErrorContainer implements ILockable {
    @observable _locked: boolean;
 
-   constructor(initialState?: ILockableState) {
+   constructor(initialState?: ILockableProps) {
       super();
       this._locked = initialState && initialState.locked || false;
    }

@@ -1,17 +1,17 @@
-import {Node, INodeState} from './superclasses/Node';
-import {symbolIdBiMap} from './utilities/SymbolIdBiMap';
-import {Mathx} from './Mathx';
 import {ErrorType, IError} from './errors';
-import {observable, computed, action} from "mobx";
-import {isValidSymbol} from "./utilities/regex";
 import {isNullOrUndefined} from "util";
+import {isValidSymbol} from "./utilities/regex";
+import {Mathx} from './Mathx';
+import {Node, INodeProps, INode} from './superclasses/Node';
+import {observable, computed, action} from "mobx";
+import {symbolIdBiMap} from './utilities/SymbolIdBiMap';
 
-export interface ISymbol {
+export interface ISymbol extends INode {
     symbol: string;
     updateSymbol: (symbol: string) => void; // throws when symbol is invalid
 }
 
-export interface ISymbolState extends INodeState {
+export interface ISymbolProps extends INodeProps {
     symbol: string;
 }
 
@@ -19,7 +19,7 @@ export class Symbol extends Node implements ISymbol {
     @observable private _symbol: string;
     @observable private _tempInvalidSymbol: string;
 
-    constructor(graph: Mathx, initialState: ISymbolState) {
+    constructor(graph: Mathx, initialState: ISymbolProps) {
         super(graph, initialState);
         this._symbol = null;
         if (!initialState || isNullOrUndefined(initialState.symbol)) throw Error('must provide a symbol when creating a cell');

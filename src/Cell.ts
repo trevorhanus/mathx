@@ -1,20 +1,40 @@
-import {INode} from './superclasses/Node';
-import {IErrorContainer} from "./errors/ErrorContainer";
-import {ISymbol} from "./Symbol";
-import {IEquation, Equation, IEquationProps} from "./Equation";
-import {ILockable} from "./superclasses/Lockable";
+import {ISymbolProps, ISymbol, Symbol} from "./Symbol";
+import {Mathx} from './Mathx';
+import {observable, computed, action} from 'mobx';
 
-export class Cell extends Equation {}
-
-namespace Cell {
-
-   export interface Cell extends
-      IErrorContainer,
-      ILockable,
-      INode,
-      ISymbol,
-      IEquation {}
-
+export interface ICell extends ISymbol {
+    value: number | string;
+    displayValue: string;
+    setFormula?: (formula: string) => void;
 }
 
-export interface CellState extends IEquationProps {}
+export interface ICellProps extends ISymbolProps {
+    type: 'Equation';
+    formula?: string;
+    value?: number | string;
+    displayFormat?: string;
+}
+
+export class Cell extends Symbol implements ICell {
+    @observable private _value: number | string;
+
+    constructor(graph: Mathx, props: ICellProps) {
+        super(graph, props);
+        this._value = props.value || null;
+    }
+
+    @action
+    setValue(val: string | number): void {
+        this._value = val;
+    }
+
+    @computed
+    get value(): number | string {
+        return this._value;
+    }
+
+    @computed
+    get displayValue(): string {
+        return this._value.toString();
+    }
+}

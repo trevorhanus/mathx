@@ -2,7 +2,7 @@ import {observable, computed, action, ObservableMap} from 'mobx';
 import {genId} from '../utilities/genId';
 import {Mathx} from '../Mathx';
 import {CircularReferenceError} from '../errors';
-import {Lockable, ILockableState, ILockable} from "./Lockable";
+import {Lockable, ILockableProps, ILockable} from "./Lockable";
 
 export interface INode extends ILockable {
     readonly id: string;
@@ -20,7 +20,7 @@ export interface INode extends ILockable {
     removeDependent: (node: INode) => void;
 }
 
-export interface INodeState extends ILockableState {
+export interface INodeProps extends ILockableProps {
     id?: string;
 }
 
@@ -30,7 +30,7 @@ export class Node extends Lockable implements INode {
     @observable private _providers: ObservableMap<INode>;
     @observable private _dependents: ObservableMap<INode>;
 
-    constructor(graph: Mathx, initialState?: INodeState) {
+    constructor(graph: Mathx, initialState?: INodeProps) {
         super(initialState);
         this._graph = graph;
         this._id = (initialState && initialState.id) || genId();

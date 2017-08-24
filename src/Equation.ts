@@ -3,22 +3,20 @@ import * as math from 'mathjs';
 import {symbolIdBiMap} from './utilities/SymbolIdBiMap';
 import {ErrorType, InvalidFormulaError, MathxError, ReferenceNotFoundError, CircularReferenceError, ReferenceValueError} from './errors';
 import {cleanFormula} from "./utilities/regex";
-import {Cell} from './Cell';
+import {ICell, ICellProps, Cell} from './Cell';
 import {Mathx} from './Mathx';
-import {Symbol, ISymbolState} from "./Symbol";
 
-export interface IEquation {
+export interface IEquation extends ICell {
     setFormula: (formula: string) => void; // throws when formula is invalid
     formula: string;
     value: number;
-    displayValue: string;
 }
 
-export interface IEquationProps extends ISymbolState {
+export interface IEquationProps extends ICellProps {
     formula?: string;
 }
 
-export class Equation extends Symbol implements IEquation {
+export class Equation extends Cell implements IEquation {
     @observable.ref private _rootNode: ISymbolNode;
     @observable private _tempInvalidFormula: string;
 
@@ -28,7 +26,6 @@ export class Equation extends Symbol implements IEquation {
         this._tempInvalidFormula = null;
         const formula = initialState.formula || '';
         this.setFormula(formula);
-        // this.watchProvidersForChanges();
     }
 
     @computed
@@ -107,7 +104,7 @@ export class Equation extends Symbol implements IEquation {
             symbolNode.mathxId = id;
             symbolNode.name = id;
             // check to see if it is in the graph yet
-            const provider = this.graph.findById(id);
+            const provider = this.graph.findById(id) as IEquation;
 
             if (provider === null || provider === undefined) {
                 // we couldn't find a cell with the given symbol
@@ -148,7 +145,7 @@ export class Equation extends Symbol implements IEquation {
     }
 
     @computed
-    get scope(): IScope {
+    private get scope(): IScope {
         this._clearErrors([ErrorType.ReferenceNotFound, ErrorType.ReferenceValueError]);
         const scope: IScope = {};
         this.symbolNodes.forEach((node: ISymbolNode) => {
@@ -157,7 +154,7 @@ export class Equation extends Symbol implements IEquation {
             }
 
             // see if we can find the cell
-            const cell = this.graph.findById(node.mathxId);
+            const cell = this.graph.findById(node.mathxId) as IEquation;
 
             if (cell === null) {
                 const symbol = symbolIdBiMap.getSymbol(node.mathxId);
@@ -193,35 +190,15 @@ export class Equation extends Symbol implements IEquation {
             this.__clearAllErrors();
         }
     }
-    //
-    // private watchProvidersForChanges(): void {
-    //     reaction(() => {
-    //         if (isNaN(this.value)) {
-    //             return NaN;
-    //         }
-    //     }, (value) => {
-    //         this.symbolNodes.forEach((node: ISymbolNode) => {
-    //
-    //             if (!node.cell || isNaN(node.cell.value)) {
-    //                 this.addCellReferenceError(`[${node.name}] has an error`);
-    //                 return;
-    //             }
-    //
-    //             if (!this.graph.idExists(node.cell.id)) {
-    //                 // cell was deleted
-    //                 this.addCellReferenceError(`referenced cell [${node.cell.symbol}] was deleted`);
-    //             }
-    //         });
-    //     });
-    // }
 }
 
 export interface ISymbolNode extends mathjs.MathNode {
+    name: string;
     mathxId: string;
-    cell?: Cell;
+    cell?: IEquation;
     toString: (options: any) => string;
 }
 
-export interface IScope {
+interface IScope {
     [symbol: string]: number;
 }
