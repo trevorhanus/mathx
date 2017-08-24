@@ -1,7 +1,7 @@
+import {autorun} from 'mobx';
 import {Mathx} from './Mathx';
-import {Cell} from './Cell';
 
 export {
-   Mathx,
-   Cell
+    Mathx,
+    autorun
 }
