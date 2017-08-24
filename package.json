@@ -1,6 +1,6 @@
 {
     "name": "mathx",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "description": "Reactive math spreadsheet-like library",
     "main": "lib/index.js",
     "types": "lib/index",
