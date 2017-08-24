@@ -40,8 +40,9 @@ export class Equation extends Cell implements IEquation {
             handler: (node: ISymbolNode) => {
                 if (node.isSymbolNode) {
                     const id = node.mathxId;
-                    const cell = this.graph.findById(id);
-                    return cell ? cell.symbol : node.name;
+                    return symbolIdBiMap.getSymbol(id);
+                    // const cell = this.graph.findById(id);
+                    // return cell ? cell.symbol : node.name;
                 } else {
                     return node.value;
                 }
@@ -51,13 +52,14 @@ export class Equation extends Cell implements IEquation {
 
     @action
     setFormula(formula: string): void {
-        if (formula === '') {
-            return;
-        }
-
         // start fresh
         this._tempInvalidFormula = null;
         this._clearErrors();
+
+        if (formula === '') {
+            this._rootNode = null;
+            return;
+        }
 
         const newFormula = cleanFormula(formula);
 
@@ -65,6 +67,7 @@ export class Equation extends Cell implements IEquation {
         const rootNode = this.createNodeTree(newFormula);
         if (rootNode === null) {
             this._tempInvalidFormula = newFormula;
+            this._rootNode = null;
             return;
         }
         this._rootNode = rootNode;

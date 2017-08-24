@@ -3,6 +3,7 @@ import {genId} from '../utilities/genId';
 import {Mathx} from '../Mathx';
 import {CircularReferenceError} from '../errors';
 import {Lockable, ILockableProps, ILockable} from "./Lockable";
+import {symbolIdBiMap} from "../utilities/SymbolIdBiMap";
 
 export interface INode extends ILockable {
     readonly id: string;
@@ -86,7 +87,9 @@ export class Node extends Lockable implements INode {
     @action
     addProvider(provider: INode): void {
         if (this.providesFor(provider)) {
-            const err = new CircularReferenceError(`${this.id}'s formula references ${provider.id}, but ${provider.id} depends on ${this.id}`);
+            const symbol = symbolIdBiMap.getSymbol(this.id);
+            const providerSymbol = symbolIdBiMap.getSymbol(provider.id);
+            const err = new CircularReferenceError(`${symbol}'s formula references ${providerSymbol}, but ${providerSymbol} depends on ${symbol}`);
             this.__addError(err);
             return;
         }
@@ -101,7 +104,9 @@ export class Node extends Lockable implements INode {
     @action
     addDependent(dependent: INode): void {
         if (this.dependsOn(dependent)) {
-            const err = new CircularReferenceError(`${dependent.id}'s formula references ${this.id}, but ${this.id} depends on ${dependent.id}`);
+            const symbol = symbolIdBiMap.getSymbol(this.id);
+            const dependentSymbol = symbolIdBiMap.getSymbol(dependent.id);
+            const err = new CircularReferenceError(`${dependentSymbol}'s formula references ${symbol}, but ${symbol} depends on ${dependentSymbol}`);
             this.__addError(err);
             return;
         }

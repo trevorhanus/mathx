@@ -5,6 +5,7 @@ import {observable, computed, action} from 'mobx';
 export interface ICell extends ISymbol {
     displayValue: string;
     formula?: string;
+    remove: () => ICell;
     setFormula?: (formula: string) => void;
     value: number | string;
 }
@@ -24,6 +25,16 @@ export class Cell extends Symbol implements ICell {
         this._value = props.value || null;
     }
 
+    @computed
+    get displayValue(): string {
+        return this._value.toString();
+    }
+
+    @action
+    remove(): ICell {
+        return this.graph.removeCellById(this.id);
+    }
+
     @action
     setValue(val: string | number): void {
         this._value = val;
@@ -34,8 +45,5 @@ export class Cell extends Symbol implements ICell {
         return this._value;
     }
 
-    @computed
-    get displayValue(): string {
-        return this._value.toString();
-    }
+    
 }

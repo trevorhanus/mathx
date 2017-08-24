@@ -1,6 +1,6 @@
 import {expect} from 'chai';
 import {observable, ObservableMap, autorun, runInAction} from 'mobx';
-import {Mathx, Cell} from '../../src';
+import {Mathx, ICell} from '../../src';
 import * as sinon from 'sinon';
 
 function renderCells(remath: Mathx, view: any): any {
@@ -9,11 +9,11 @@ function renderCells(remath: Mathx, view: any): any {
     });
 }
 
-function renderCell(cell: Cell): string {
+function renderCell(cell: ICell): string {
     return `sym:${cell.symbol},formula:${cell.formula},val:${cell.value},disp:${cell.displayValue}`;
 }
 
-describe('Sessions', () => {
+describe('Integration Tests', () => {
 
     it('mobx reacts when a previously not set key is set', () => {
         const map: ObservableMap<string> = observable.map<string>();
@@ -98,5 +98,70 @@ describe('Sessions', () => {
         });
         expect(view).to.equal('sym:a,val:40;sym:b,val:30');
         // expect(view.get('a')).to.equal('sym:a,formula:b + 10,val:40,disp:40');
+    });
+
+    it('formula displays symbol when reference is deleted', () => {
+        const mathx = new Mathx();
+        const a = mathx.newEquation({
+            symbol: 'a',
+            formula: '10'
+        });
+        const b = mathx.newEquation({
+            symbol: 'b',
+            formula: 'a + 10'
+        });
+        expect(b.formula).to.equal('a + 10');
+        mathx.removeCell('a');
+        expect(b.formula).to.equal('a + 10');
+        expect(b.hasError).to.be.true;
+    });
+
+    it('adding an invalid formula clears the previous formula', () => {
+        const mathx = new Mathx();
+        const a = mathx.newEquation({
+            symbol: 'a',
+            formula: '10'
+        });
+        expect(a.formula).to.equal('10');
+        expect(a.value).to.equal(10);
+        a.setFormula('%');
+        expect(a.formula).to.equal('%');
+        expect(a.displayValue).to.equal('#FORM!');
+        expect(a.hasError).to.be.true;
+        expect(a.value).to.be.NaN;
+    });
+
+    it('setting formula to empty resets value to NaN', () => {
+        const mathx = new Mathx();
+        const a = mathx.newEquation({
+            symbol: 'a',
+            formula: '10'
+        });
+        expect(a.formula).to.equal('10');
+        expect(a.value).to.equal(10);
+        a.setFormula('');
+        expect(a.formula).to.equal('');
+        expect(a.value).to.be.NaN;
+    });
+
+    it('circular reference error displays symbols', () => {
+        const mathx = new Mathx();
+        const a = mathx.newEquation({
+            symbol: 'a',
+            formula: '10 + b'
+        });
+        const b = mathx.newEquation({
+            symbol: 'b',
+            formula: '10 + a'
+        });
+
+    });
+
+    it('adding a cell with an existing symbol throws error?', () => {
+        const mathx = new Mathx();
+        const a = mathx.newEquation({
+            symbol: 'a',
+            formula: '10 + b'
+        });
     });
 });
