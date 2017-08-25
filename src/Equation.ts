@@ -1,5 +1,5 @@
-import {observable, action, computed, reaction, autorun} from 'mobx';
-import * as math from 'mathjs';
+import {observable, action, computed} from 'mobx';
+import * as mathjs from 'mathjs';
 import {symbolIdBiMap} from './utilities/SymbolIdBiMap';
 import {ErrorType, InvalidFormulaError, MathxError, ReferenceNotFoundError, CircularReferenceError, ReferenceValueError} from './errors';
 import {cleanFormula} from "./utilities/regex";
@@ -79,7 +79,7 @@ export class Equation extends Cell implements IEquation {
     private createNodeTree(formula: string): ISymbolNode {
         let rootNode: mathjs.MathNode = null;
         try {
-            rootNode = math.parse(formula);
+            rootNode = mathjs.parse(formula);
             return rootNode as ISymbolNode;
         } catch (e) {
             const err = new InvalidFormulaError(e.message);
