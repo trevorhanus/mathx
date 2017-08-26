@@ -112,6 +112,7 @@ describe('Integration Tests', () => {
         });
         expect(b.formula).to.equal('a + 10');
         mathx.removeCell('a');
+        expect(b.value).to.be.NaN;
         expect(b.formula).to.equal('a + 10');
         expect(b.hasError).to.be.true;
     });
@@ -154,14 +155,21 @@ describe('Integration Tests', () => {
             symbol: 'b',
             formula: '10 + a'
         });
-
     });
 
-    it('adding a cell with an existing symbol throws error?', () => {
+    it('Error on cell when provider is deleted', () => {
         const mathx = new Mathx();
         const a = mathx.newEquation({
             symbol: 'a',
-            formula: '10 + b'
+            formula: '10'
         });
+        const b = mathx.newEquation({
+            symbol: 'b',
+            formula: 'a + 10'
+        });
+        expect(b.value).to.equal(20);
+        mathx.removeCell('a');
+        expect(b.value).to.be.NaN;
+        expect(b.hasError).to.be.true;
     });
 });

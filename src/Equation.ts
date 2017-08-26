@@ -38,13 +38,9 @@ export class Equation extends Cell implements IEquation {
         }
         return this._rootNode.toString({
             handler: (node: ISymbolNode) => {
-                if (node.isSymbolNode) {
+                if (node.isSymbolNode && node.mathxId !== undefined) {
                     const id = node.mathxId;
                     return symbolIdBiMap.getSymbol(id);
-                    // const cell = this.graph.findById(id);
-                    // return cell ? cell.symbol : node.name;
-                } else {
-                    return node.value;
                 }
             }
         });

@@ -140,4 +140,19 @@ describe('Equation', () => {
          expect(a.symbol).to.equal('newA');
          expect(b.formula).to.equal('newA + 10');
     });
+
+    it('formula with functions', () => {
+        const mathx = new Mathx();
+        const a = mathx.newEquation({
+            symbol: 'a',
+            formula: '16'
+        });
+        const b = mathx.newEquation({
+            symbol: 'b',
+            formula: '= sqrt(a)'
+        });
+        expect(b.formula).to.equal('sqrt(a)');
+        b.setFormula('sin(a)');
+        expect(b.formula).to.equal('sin(a)');
+    });
 });
