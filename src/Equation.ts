@@ -100,9 +100,9 @@ export class Equation extends Cell implements IEquation {
                 this.__addError(e);
                 return;
             }
-
+            const symbol = symbolNode.name;
             // find the id for the given symbol
-            const id = symbolIdBiMap.getId(symbolNode.name);
+            const id = symbolIdBiMap.getId(symbol);
             // set the id on the node
             symbolNode.mathxId = id;
             symbolNode.name = id;
@@ -112,7 +112,7 @@ export class Equation extends Cell implements IEquation {
             if (provider === null || provider === undefined) {
                 // we couldn't find a cell with the given symbol
                 // need to throw a reference error
-                const e =  new ReferenceNotFoundError(`${this.symbol}'s formula references ${symbolNode.name} which does not exist.`);
+                const e =  new ReferenceNotFoundError(`${this.symbol}'s formula references ${symbol} which does not exist.`);
                 this.__addError(e);
                 return;
             }
