@@ -170,6 +170,7 @@ describe('Integration Tests', () => {
         expect(b.value).to.equal(20);
         mathx.removeCell('a');
         expect(b.value).to.be.NaN;
+        console.log(b.errors);
         expect(b.hasError).to.be.true;
     });
 });
