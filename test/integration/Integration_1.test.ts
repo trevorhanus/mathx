@@ -1,9 +1,9 @@
 import {expect} from 'chai';
 import {observable, ObservableMap, autorun, runInAction} from 'mobx';
-import {Mathx, ICell} from '../../src';
+import {Calculation, ICell} from '../../src';
 import * as sinon from 'sinon';
 
-function renderCells(remath: Mathx, view: any): any {
+function renderCells(remath: Calculation, view: any): any {
     remath.cells.forEach(cell => {
         view.set(cell.symbol, renderCell(cell));
     });
@@ -36,7 +36,7 @@ describe('Integration Tests', () => {
     });
 
     it('reacts to changing values', () => {
-        const remath = new Mathx();
+        const remath = new Calculation();
         let view: ObservableMap<string> = observable.map<string>();
         autorun(() => {
             renderCells(remath, view);
@@ -70,7 +70,7 @@ describe('Integration Tests', () => {
     });
 
     it('adding variable whose formula references a non-existent symbol', () => {
-        const mathx = new Mathx();
+        const mathx = new Calculation();
         let view: string = '';
         const render = sinon.spy(() => {
             view = '';
@@ -101,7 +101,7 @@ describe('Integration Tests', () => {
     });
 
     it('formula displays symbol when reference is deleted', () => {
-        const mathx = new Mathx();
+        const mathx = new Calculation();
         const a = mathx.newEquation({
             symbol: 'a',
             formula: '10'
@@ -118,7 +118,7 @@ describe('Integration Tests', () => {
     });
 
     it('adding an invalid formula clears the previous formula', () => {
-        const mathx = new Mathx();
+        const mathx = new Calculation();
         const a = mathx.newEquation({
             symbol: 'a',
             formula: '10'
@@ -133,7 +133,7 @@ describe('Integration Tests', () => {
     });
 
     it('setting formula to empty resets value to NaN', () => {
-        const mathx = new Mathx();
+        const mathx = new Calculation();
         const a = mathx.newEquation({
             symbol: 'a',
             formula: '10'
@@ -146,7 +146,7 @@ describe('Integration Tests', () => {
     });
 
     it('circular reference error displays symbols', () => {
-        const mathx = new Mathx();
+        const mathx = new Calculation();
         const a = mathx.newEquation({
             symbol: 'a',
             formula: '10 + b'
@@ -158,7 +158,7 @@ describe('Integration Tests', () => {
     });
 
     it('Error on cell when provider is deleted', () => {
-        const mathx = new Mathx();
+        const mathx = new Calculation();
         const a = mathx.newEquation({
             symbol: 'a',
             formula: '10'

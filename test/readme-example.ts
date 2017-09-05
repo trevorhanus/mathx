@@ -1,6 +1,6 @@
-import {Mathx, autorun} from '../src';
+import {Calculation, autorun} from '../src';
 
-const calc = Mathx.newCalculation();
+const calc = Calculation.newCalculation();
 
 // Add an equation to the calc
 const a = calc.newEquation({

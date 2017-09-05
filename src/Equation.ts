@@ -4,7 +4,7 @@ import {symbolIdBiMap} from './utilities/SymbolIdBiMap';
 import {ErrorType, InvalidFormulaError, MathxError, ReferenceNotFoundError, CircularReferenceError, ReferenceValueError} from './errors';
 import {cleanFormula} from "./utilities/regex";
 import {ICell, ICellProps, Cell} from './Cell';
-import {Mathx} from './Mathx';
+import {Calculation} from './Mathx';
 
 export interface IEquation extends ICell {
     setFormula: (formula: string) => void; // throws when formula is invalid
@@ -20,7 +20,7 @@ export class Equation extends Cell implements IEquation {
     @observable.ref private _rootNode: ISymbolNode;
     @observable private _tempInvalidFormula: string;
 
-    constructor(graph: Mathx, initialState: IEquationProps) {
+    constructor(graph: Calculation, initialState: IEquationProps) {
         super(graph, initialState);
         this._rootNode = null;
         this._tempInvalidFormula = null;

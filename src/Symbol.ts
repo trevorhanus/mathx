@@ -1,7 +1,7 @@
 import {ErrorType, IError} from './errors';
 import {isNullOrUndefined} from "util";
 import {isValidSymbol} from "./utilities/regex";
-import {Mathx} from './Mathx';
+import {Calculation} from './Mathx';
 import {Node, INodeProps, INode} from './superclasses/Node';
 import {observable, computed, action} from "mobx";
 import {symbolIdBiMap} from './utilities/SymbolIdBiMap';
@@ -19,7 +19,7 @@ export class Symbol extends Node implements ISymbol {
     @observable private _symbol: string;
     @observable private _tempInvalidSymbol: string;
 
-    constructor(graph: Mathx, initialState: ISymbolProps) {
+    constructor(graph: Calculation, initialState: ISymbolProps) {
         super(graph, initialState);
         this._symbol = null;
         if (!initialState || isNullOrUndefined(initialState.symbol)) throw Error('must provide a symbol when creating a cell');

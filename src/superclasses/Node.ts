@@ -1,13 +1,13 @@
 import {observable, computed, action, ObservableMap} from 'mobx';
 import {genId} from '../utilities/genId';
-import {Mathx} from '../Mathx';
+import {Calculation} from '../Mathx';
 import {CircularReferenceError} from '../errors';
 import {Lockable, ILockableProps, ILockable} from "./Lockable";
 import {symbolIdBiMap} from "../utilities/SymbolIdBiMap";
 
 export interface INode extends ILockable {
     readonly id: string;
-    readonly graph: Mathx;
+    readonly graph: Calculation;
     providers: INode[];
     dependents: INode[];
     dependsOn: (node: INode) => boolean;
@@ -27,11 +27,11 @@ export interface INodeProps extends ILockableProps {
 
 export class Node extends Lockable implements INode {
     private _id: string;
-    private _graph: Mathx;
+    private _graph: Calculation;
     @observable private _providers: ObservableMap<INode>;
     @observable private _dependents: ObservableMap<INode>;
 
-    constructor(graph: Mathx, initialState?: INodeProps) {
+    constructor(graph: Calculation, initialState?: INodeProps) {
         super(initialState);
         this._graph = graph;
         this._id = (initialState && initialState.id) || genId();
@@ -39,7 +39,7 @@ export class Node extends Lockable implements INode {
         this._dependents = observable.map<INode>();
     }
 
-    get graph(): Mathx {
+    get graph(): Calculation {
         return this._graph;
     }
 

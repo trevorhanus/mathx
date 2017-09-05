@@ -3,7 +3,7 @@ import * as sinon from 'sinon';
 import {Equation} from "../src/Equation";
 import {ErrorType} from "../src/errors";
 import {autorun} from "mobx";
-import {Mathx} from '../src/Mathx';
+import {Calculation} from '../src/Mathx';
 
 describe('Equation', () => {
 
@@ -126,7 +126,7 @@ describe('Equation', () => {
     });
 
     it('Returns modified formula when a dependent cell changes symbol', () => {
-         const mathx = new Mathx();
+         const mathx = new Calculation();
          const a = mathx.newEquation({
              symbol: 'a',
              formula: '10'
@@ -142,7 +142,7 @@ describe('Equation', () => {
     });
 
     it('formula with functions', () => {
-        const mathx = new Mathx();
+        const mathx = new Calculation();
         const a = mathx.newEquation({
             symbol: 'a',
             formula: '16'

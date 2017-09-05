@@ -1,13 +1,13 @@
 import {expect} from 'chai';
 import {autorun} from 'mobx';
 import * as sinon from 'sinon';
-import {Mathx} from '../src/Mathx';
+import {Calculation} from '../src/Mathx';
 import {symbolIdBiMap} from '../src/utilities/SymbolIdBiMap';
 
 describe('Graph', () => {
 
     it('add a cell', () => {
-        const graph = new Mathx();
+        const graph = new Calculation();
         const a = graph.newEquation({
             symbol: 'a'
         });
@@ -15,7 +15,7 @@ describe('Graph', () => {
     });
 
     it('find by id', () => {
-        const graph = new Mathx();
+        const graph = new Calculation();
         const a = graph.newEquation({
             symbol: 'a'
         });
@@ -23,7 +23,7 @@ describe('Graph', () => {
     });
 
     it('find by id with 2 cells', () => {
-        const graph = new Mathx();
+        const graph = new Calculation();
         const a = graph.newEquation({
             symbol: 'a'
         });
@@ -34,17 +34,17 @@ describe('Graph', () => {
     });
 
     it('find => null when no symbol', () => {
-        const graph = new Mathx();
+        const graph = new Calculation();
         expect(graph.find('a')).to.be.null;
     });
 
     it('find => null when no id', () => {
-        const graph = new Mathx();
+        const graph = new Calculation();
         expect(graph.find(symbolIdBiMap.getId('none'))).to.be.null;
     });
 
     it('returns a list of cells', () => {
-        const graph = new Mathx();
+        const graph = new Calculation();
         const a = graph.newEquation({
             symbol: 'a'
         });
@@ -56,7 +56,7 @@ describe('Graph', () => {
     });
 
     it('knows when symbol exists', () => {
-        const graph = new Mathx();
+        const graph = new Calculation();
         const a = graph.newEquation({
             symbol: 'a'
         });
@@ -64,7 +64,7 @@ describe('Graph', () => {
     });
 
     it('knows when updated symbol exists', () => {
-        const graph = new Mathx();
+        const graph = new Calculation();
         const a = graph.newEquation({
             symbol: 'a'
         });
@@ -74,7 +74,7 @@ describe('Graph', () => {
     });
 
     it('Can remove a cell', () => {
-        const graph = new Mathx();
+        const graph = new Calculation();
         const a = graph.newEquation({
             symbol: 'a'
         });
@@ -87,7 +87,7 @@ describe('Graph', () => {
     });
 
     it('reacts when a dependent cell is removed', () => {
-        const graph = new Mathx();
+        const graph = new Calculation();
         const a = graph.newEquation({
             symbol: 'a',
             formula: '= 10'
@@ -110,7 +110,7 @@ describe('Graph', () => {
 
     // TODO: add the messages functionality to graph
     // xit('Duplicate symbols', () => {
-    //     const graph = new Mathx();
+    //     const graph = new Calculation();
     //     const messagesSpy = sinon.spy(() => {
     //         graph.messages;
     //     });
@@ -122,11 +122,11 @@ describe('Graph', () => {
     //         symbol: 'a'
     //     });
     //     expect(messagesSpy.callCount).to.equal(2);
-    //     expect(graph.messages[0].content).to.equal('Mathx: symbol `a` already exists');
+    //     expect(graph.messages[0].content).to.equal('Calculation: symbol `a` already exists');
     // });
 
     it('can add a removed symbol', () => {
-        const graph = new Mathx();
+        const graph = new Calculation();
         const a = graph.newEquation({
             symbol: 'a'
         });
@@ -138,7 +138,7 @@ describe('Graph', () => {
     });
 
     it('knows it has dependents', () => {
-        const graph = new Mathx();
+        const graph = new Calculation();
         const a = graph.newEquation({
             symbol: 'a',
             formula: '10'

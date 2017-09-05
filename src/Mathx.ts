@@ -3,7 +3,7 @@ import {Equation, IEquationProps} from './Equation';
 import {symbolIdBiMap} from './utilities/SymbolIdBiMap';
 import {observable, ObservableMap, computed, action} from "mobx";
 
-export interface IMathx {
+export interface ICalculation {
     cells: ICell[];
     find: (symbolOrId: string) => ICell;
     findById: (id: string) => ICell;
@@ -19,7 +19,7 @@ export interface ICalculationProps {
     cells: ICellProps[];
 }
 
-export class Mathx implements IMathx {
+export class Calculation implements ICalculation {
     @observable private _cells: ObservableMap<ICell>;
 
     constructor() {
@@ -103,12 +103,12 @@ export class Mathx implements IMathx {
 
     // Static
 
-    static newCalculation(): Mathx {
-        return new Mathx();
+    static newCalculation(): Calculation {
+        return new Calculation();
     }
 
-    static fromJSON(props: ICalculationProps): Mathx {
-        const c = new Mathx();
+    static fromJSON(props: ICalculationProps): Calculation {
+        const c = new Calculation();
         props.cells.forEach(cellProps => {
             c.newCell(cellProps);
         });

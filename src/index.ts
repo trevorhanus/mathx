@@ -1,10 +1,10 @@
 import {autorun} from 'mobx';
-import {Mathx} from './Mathx';
+import {Calculation} from './Mathx';
 import {ICell, ICellProps} from './Cell';
 import {IEquation, IEquationProps} from './Equation';
 
 export {
-    Mathx,
+    Calculation,
     autorun,
     ICell, ICellProps,
     IEquation, IEquationProps

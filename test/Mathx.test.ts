@@ -1,22 +1,22 @@
 import {expect} from 'chai';
-import {ICalculationProps, Mathx} from '../src/Mathx';
+import {ICalculationProps, Calculation} from '../src/Mathx';
 import {autorun} from 'mobx';
 
-describe('Mathx', () => {
+describe('Calculation', () => {
 
     it('can instantiate', () => {
-        const rm = new Mathx();
+        const rm = new Calculation();
         expect(rm.cells.length).to.equal(0);
     });
 
     it('can add a cell', () => {
-        const rm = new Mathx();
+        const rm = new Calculation();
         rm.newEquation({symbol: 'a'});
         expect(rm.cells.length).to.equal(1);
     });
 
     it('can add multiple cells', () => {
-        const rm = new Mathx();
+        const rm = new Calculation();
         rm.newEquation({symbol: 'a'});
         rm.newEquation({symbol: 'b'});
         rm.newEquation({symbol: 'c'});
@@ -24,14 +24,14 @@ describe('Mathx', () => {
     });
 
     it('can find cells', () => {
-        const rm = new Mathx();
+        const rm = new Calculation();
         const a = rm.newEquation({symbol: 'a'});
         expect(rm.find('a')).to.equal(a);
         expect(rm.findById(a.id)).to.equal(a);
     });
 
     it('catches a simple circular reference', () => {
-        const graph = new Mathx();
+        const graph = new Calculation();
         const a = graph.newEquation({
             symbol: 'a',
             formula: '= 10'
@@ -41,7 +41,7 @@ describe('Mathx', () => {
     });
 
     it('catches a complicated circular reference', () => {
-        const graph = new Mathx();
+        const graph = new Calculation();
         const a = graph.newEquation({
             symbol: 'a',
             formula: '= 10'
@@ -63,7 +63,7 @@ describe('Mathx', () => {
     });
 
     it('re-renders `b = a + 10` when `a` is added to sheet', () => {
-        const graph = new Mathx();
+        const graph = new Calculation();
         // add b which depends on a, but a does not exist
         const b = graph.newEquation({
             symbol: 'derp',
@@ -99,7 +99,7 @@ describe('Mathx', () => {
                 }
             ]
         };
-        const calc = Mathx.fromJSON(json);
+        const calc = Calculation.fromJSON(json);
         expect(calc.cells.length).to.equal(2);
         const a = calc.find('a');
         const b = calc.find('b');

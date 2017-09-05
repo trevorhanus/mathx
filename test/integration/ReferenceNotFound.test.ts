@@ -1,12 +1,12 @@
 import {expect} from 'chai';
 import {autorun, runInAction} from 'mobx';
 import * as sinon from 'sinon';
-import {Mathx} from "../../src/Mathx";
+import {Calculation} from "../../src/Mathx";
 
 describe('Reference Not Found', () => {
 
     it('simple reference does not exist', () => {
-        const graph = new Mathx();
+        const graph = new Calculation();
         const a = graph.newEquation({
             symbol: 'a',
             formula: '= 10'
@@ -17,7 +17,7 @@ describe('Reference Not Found', () => {
     });
 
     it('reference is removed', () => {
-        const graph = new Mathx();
+        const graph = new Calculation();
         const a = graph.newEquation({
             symbol: 'a',
             formula: '= 10'
@@ -37,7 +37,7 @@ describe('Reference Not Found', () => {
     });
 
     it('rerenders when reference is removed', () => {
-        const graph = new Mathx();
+        const graph = new Calculation();
         const a = graph.newEquation({
             symbol: 'a',
             formula: '= 10'

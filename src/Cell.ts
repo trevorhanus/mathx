@@ -1,5 +1,5 @@
 import {ISymbolProps, ISymbol, Symbol} from "./Symbol";
-import {Mathx} from './Mathx';
+import {Calculation} from './Mathx';
 import {observable, computed, action} from 'mobx';
 
 export interface ICell extends ISymbol {
@@ -20,7 +20,7 @@ export interface ICellProps extends ISymbolProps {
 export class Cell extends Symbol implements ICell {
     @observable private _value: number | string;
 
-    constructor(graph: Mathx, props: ICellProps) {
+    constructor(graph: Calculation, props: ICellProps) {
         super(graph, props);
         this._value = props.value || null;
     }
