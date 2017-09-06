@@ -35,7 +35,6 @@
         "ts-node": "^3.3.0"
     },
     "dependencies": {
-        "@types/es6-shim": "^0.31.35",
         "@types/mathjs": "0.0.35",
         "@types/uuid": "^3.4.1",
         "mathjs": "^3.1.0",

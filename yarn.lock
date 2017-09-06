@@ -6,10 +6,6 @@
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.0.4.tgz#fe86315d9a66827feeb16f73bc954688ec950e18"
 
-"@types/es6-shim@^0.31.35":
-  version "0.31.35"
-  resolved "https://registry.yarnpkg.com/@types/es6-shim/-/es6-shim-0.31.35.tgz#d11920d8d4c938ad912c51e699ed7ba2505ba1eb"
-
 "@types/mathjs@0.0.35":
   version "0.0.35"
   resolved "https://registry.yarnpkg.com/@types/mathjs/-/mathjs-0.0.35.tgz#ac73ba3284653757394e85f17e5a306bc2e77267"
